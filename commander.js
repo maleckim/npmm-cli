@@ -3,7 +3,7 @@ const exec = require('./lib/exec_sync');
 const fetch = require('node-fetch');
 const defer = require('lodash.defer');
 //creating and checking for persisting data
-const name = require('./lib/local_persist');
+const {setName, retrieveName} = require('./lib/local_persist')
 
 const npmm = new Command();
 
@@ -31,7 +31,7 @@ function listView() {
 }
 
 function viewUser() {
-  console.log(name);
+  getName();
 }
 
 
@@ -52,6 +52,20 @@ npmm
   .description("view user collections")
   .action(() => {
     listView()
+  })
+
+npmm
+  .command("who")
+  .description("view who is signed on")
+  .action(() => {
+    retrieveName();
+  })
+
+npmm
+  .command("set-user <email>")
+  .description("set the user email for NPMM")
+  .action( (email) => {
+    setName(email);
   })
   
 // 113-0668256-0077045
