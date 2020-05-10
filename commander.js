@@ -6,18 +6,22 @@ const name = require('./lib/local_persist');
 const program = new Command();
 
 function listView() {
-    console.log(name);
     console.log(exec('ls'));
 }
 
-program
-  .option("-l, --list", "thing doing the thing woo", listView)
+function viewUser() {
+  console.log(name);
+}
 
 program
-  .command("view")
-  .description("view a list of current collections")
+  .option("-v, --view", "View all the user collections", listView)
+  .option("-u, --user", "Check current user", viewUser)
+
+program
+  .command("launch")
+  .description("create a package-lock.json")
   .action(() => {
-    console.log(`Here is your current collections`) 
+    console.log(exec('ls'));
   });
   
 // 113-0668256-0077045
