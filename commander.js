@@ -11,15 +11,20 @@ function displayCollections(userCollections) {
   }
 }
 
+
+
+
 function listView() {
-  fetch(`http://localhost:8000/api/collections?userId=1`)
+ 
+  fetch(`http://localhost:8000/api/cli?email=${email}`)
     .then((res) => {
       if (res.ok) {
         return res.json();
       }
     })
     .then((resJSON) => {
-      return displayCollections(resJSON);
+      console.log(resJSON);
+      // return displayCollections(resJSON);
     });
 
   // console.log(exec('ls'));
