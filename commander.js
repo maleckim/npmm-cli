@@ -1,7 +1,7 @@
 const { Command } = require("commander");
 const exec = require("./lib/exec_sync");
 const fetch = require("node-fetch");
-const { setName, retrieveName, getCollections } = require("./lib/local_persist");
+const { setName, retrieveName, getCollections, readyLaunch } = require("./lib/local_persist");
 
 const npmm = new Command();
 
@@ -20,10 +20,11 @@ function listView() {
 
 
 npmm
-  .command("launch")
+  .command("launch <collection_name>")
   .description("installs your npm packages")
-  .action(() => {
-    console.log(exec("ls"));
+  .action((collection_name) => {
+    readyLaunch(collection_name);
+    // console.log(exec("ls"));
   });
 
 npmm
@@ -44,7 +45,6 @@ npmm
   .command("set-user <email> <password>")
   .description("set the user email for NPMM")
   .action((email, password) => {
-    console.log(password);
     setName(email,password);
   });
 
