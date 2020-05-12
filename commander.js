@@ -1,7 +1,7 @@
 const { Command } = require("commander");
 const exec = require("./lib/exec_sync");
 const fetch = require("node-fetch");
-const { setName, retrieveName } = require("./lib/local_persist");
+const { setName, retrieveName, getCollections } = require("./lib/local_persist");
 
 const npmm = new Command();
 
@@ -12,20 +12,8 @@ function displayCollections(userCollections) {
 }
 
 
-
-
 function listView() {
- 
-  fetch(`http://localhost:8000/api/cli?email=${email}`)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    })
-    .then((resJSON) => {
-      console.log(resJSON);
-      // return displayCollections(resJSON);
-    });
+
 
   // console.log(exec('ls'));
 }
@@ -33,7 +21,7 @@ function listView() {
 
 npmm
   .command("launch")
-  .description("create a package-lock.json")
+  .description("installs your npm packages")
   .action(() => {
     console.log(exec("ls"));
   });
@@ -42,7 +30,7 @@ npmm
   .command("view")
   .description("view user collections")
   .action(() => {
-    listView();
+     getCollections();
   });
 
 npmm
@@ -53,10 +41,11 @@ npmm
   });
 
 npmm
-  .command("set-user <email>")
+  .command("set-user <email> <password>")
   .description("set the user email for NPMM")
-  .action((email) => {
-    setName(email);
+  .action((email, password) => {
+    console.log(password);
+    setName(email,password);
   });
 
 // 113-0668256-0077045
