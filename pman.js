@@ -11,14 +11,6 @@ function displayCollections(userCollections) {
   }
 }
 
-
-function listView() {
-
-
-  // console.log(exec('ls'));
-}
-
-
 npmm
   .command("launch <collection_name>")
   .description("installs your npm packages")
