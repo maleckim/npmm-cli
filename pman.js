@@ -1,7 +1,7 @@
 const { Command } = require("commander");
 const exec = require("./lib/execSync");
 const fetch = require("node-fetch");
-// const { setName, retrieveName, getCollections, readyLaunch } = require("./lib/localPersist");
+const store = require("./lib/localPersist");
 const npmmAPI = require('./services/npmmAPI')
 
 const npmm = new Command();
@@ -27,12 +27,13 @@ npmm
     npmmAPI.getCollections();
   });
 
-// npmm
-//   .command("who")
-//   .description("view who is signed on")
-//   .action(() => {
-//     retrieveName();
-//   });
+npmm
+  .command("who")
+  .description("view who is signed on")
+  .action(async () => {
+    const email = await store.getEmail();
+    console.log(email)
+  });
 
 // npmm
 //   .command("set-user <email> <password>")
