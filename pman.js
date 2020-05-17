@@ -1,32 +1,24 @@
-const { Command } = require("commander");
-// const exec = require("./lib/execSync");
-const fetch = require("node-fetch");
-const npmmAPI = require('./services/npmmAPI')
-const store = require('./lib/localPersist')
-const {prepareInstallCommand, findCollectionId} = require('./lib/helper')
-const execSync = require('child_process').execSync;
+const { Command } = require('commander');
+const { execSync } = require('child_process');
+const npmmAPI = require('./services/npmmAPI');
+const store = require('./lib/localPersist');
+const { prepareInstallCommand, findCollectionId } = require('./lib/helper');
 
 const npmm = new Command();
 
-function displayCollections(userCollections) {
-  for (let i in userCollections) {
-    console.log(`${userCollections[i].collection_name}`);
-  }
-}
-
 npmm
-  .command("launch <collection_name>")
-  .description("installs your npm packages")
+  .command('launch <collection_name>')
+  .description('installs your npm packages')
   .action(async (collectionName) => {
-    const id = await findCollectionId(collectionName)
-    const packs = await npmmAPI.getPackages(id)
+    const id = await findCollectionId(collectionName);
+    const packs = await npmmAPI.getPackages(id);
     // execSync(prepareInstallCommand(packs))
-    console.log(prepareInstallCommand(packs))
+    console.log(prepareInstallCommand(packs));
   });
 
 npmm
-  .command("view")
-  .description("view user collections")
+  .command('view')
+  .description('view user collections')
   .action(async () => {
     const collections = await npmmAPI.getCollections();
     collections.forEach((collection) => {
@@ -35,18 +27,18 @@ npmm
   });
 
 npmm
-  .command("who")
-  .description("view who is signed on")
+  .command('who')
+  .description('view who is signed on')
   .action(async () => {
     const email = await store.getEmail();
-    console.log(email)
+    console.log(email);
   });
 
 npmm
-  .command("set-user <email> <password>")
-  .description("set the user email for NPMM")
+  .command('set-user <email> <password>')
+  .description('set the user email for NPMM')
   .action((email, password) => {
-    npmmAPI.login(email, password)
+    npmmAPI.login(email, password);
   });
 
 // 113-0668256-0077045
