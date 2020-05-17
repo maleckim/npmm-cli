@@ -12,8 +12,8 @@ npmm
   .action(async (collectionName) => {
     const id = await findCollectionId(collectionName);
     const packs = await npmmAPI.getPackages(id);
-    // execSync(prepareInstallCommand(packs))
-    console.log(prepareInstallCommand(packs));
+    execSync(prepareInstallCommand(packs), { stdio: 'inherit' });
+    // console.log(prepareInstallCommand(packs));
   });
 
 npmm
