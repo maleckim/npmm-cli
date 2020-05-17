@@ -42,12 +42,12 @@ npmm
     console.log(email)
   });
 
-// npmm
-//   .command("set-user <email> <password>")
-//   .description("set the user email for NPMM")
-//   .action((email, password) => {
-//     setName(email,password);
-//   });
+npmm
+  .command("set-user <email> <password>")
+  .description("set the user email for NPMM")
+  .action((email, password) => {
+    npmmAPI.login(email, password)
+  });
 
 // 113-0668256-0077045
 npmm.parse(process.argv);

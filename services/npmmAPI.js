@@ -23,6 +23,18 @@ const npmmAPI = {
         },
       })
     .then((res) => res.json())
+  },
+  login: (email, password) => {
+    return fetch(`${API_ENDPOINT}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({email, password}),
+    })
+    .then((res) => res.json())
+    .then(res => store.setToken(res.authToken))
+    .then(store.setEmail(email))
   }
 }
 
