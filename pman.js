@@ -1,7 +1,7 @@
 const { Command } = require("commander");
-const exec = require("./lib/exec_sync");
+const exec = require("./lib/execSync");
 const fetch = require("node-fetch");
-const { setName, retrieveName, getCollections, readyLaunch } = require("./lib/local_persist");
+const { setName, retrieveName, getCollections, readyLaunch } = require("./lib/localPersist");
 
 const npmm = new Command();
 

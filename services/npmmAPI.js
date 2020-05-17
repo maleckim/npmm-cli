@@ -1,8 +1,9 @@
 const fetch = require("node-fetch");
+const {API_ENDPOINT} = require('../config')
 
 const apiObject = {
   packageFromCollection(id, auth, callback){
-    fetch(`http://localhost:8000/api/collections/${id}?justNames=true`, 
+    fetch(`${API_ENDPOINT}/api/collections/${id}?justNames=true`, 
     {
       method: 'GET',
       headers: {
