@@ -1,24 +1,8 @@
 {
-  "name": "experimentalcli",
+  "name": "npmm-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "pman.js",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maleckim/experimental-cli.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/maleckim/experimental-cli/issues"
-  },
-  "homepage": "https://github.com/maleckim/experimental-cli#readme",
+  "main": "npmm.js",
   "dependencies": {
     "commander": "^5.1.0",
     "node-fetch": "^2.6.0",
@@ -29,5 +13,19 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "np": "^6.2.3"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maleckim/npmm-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maleckim/npmm-cli/issues"
+  },
+  "homepage": "https://github.com/maleckim/npmm-cli#readme"
 }
