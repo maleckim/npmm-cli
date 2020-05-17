@@ -1,7 +1,6 @@
 const { Command } = require("commander");
 const exec = require("./lib/execSync");
 const fetch = require("node-fetch");
-const store = require("./lib/localPersist");
 const npmmAPI = require('./services/npmmAPI')
 
 const npmm = new Command();
@@ -23,8 +22,11 @@ function displayCollections(userCollections) {
 npmm
   .command("view")
   .description("view user collections")
-  .action(() => {
-    npmmAPI.getCollections();
+  .action(async () => {
+    const collections = await npmmAPI.getCollections();
+    collections.forEach((collection) => {
+      console.log(collection.collection_name.replace(' ', '-'));
+    });
   });
 
 npmm

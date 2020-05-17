@@ -16,19 +16,13 @@ const npmmAPI = {
   },
   getCollections: async () => {
     const token = await store.getToken();
-    fetch(`${API_ENDPOINT}/api/collections`, {
+    return fetch(`${API_ENDPOINT}/api/collections`, {
         headers: {
           "content-type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       })
         .then((res) => res.json())
-        .then((resJSON) => {
-          resJSON.map((collections) => {
-            console.log(collections.collection_name.replace(' ', '-'));
-          });
-          return resJSON;
-        });
   }
 }
 
