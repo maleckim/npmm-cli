@@ -21,6 +21,7 @@
   "homepage": "https://github.com/maleckim/experimental-cli#readme",
   "dependencies": {
     "commander": "^5.1.0",
+    "node-fetch": "^2.6.0",
     "node-persist": "^3.0.5"
   },
   "devDependencies": {
