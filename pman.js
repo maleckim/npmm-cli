@@ -1,8 +1,10 @@
 const { Command } = require("commander");
-const exec = require("./lib/execSync");
+// const exec = require("./lib/execSync");
 const fetch = require("node-fetch");
 const npmmAPI = require('./services/npmmAPI')
 const store = require('./lib/localPersist')
+const {prepareInstallCommand, findCollectionId} = require('./lib/helper')
+const execSync = require('child_process').execSync;
 
 const npmm = new Command();
 
@@ -15,9 +17,11 @@ function displayCollections(userCollections) {
 npmm
   .command("launch <collection_name>")
   .description("installs your npm packages")
-  .action((collection_name) => {
-    readyLaunch(collection_name);
-    // console.log(exec("ls"));
+  .action(async (collectionName) => {
+    const id = await findCollectionId(collectionName)
+    const packs = await npmmAPI.getPackages(id)
+    // execSync(prepareInstallCommand(packs))
+    console.log(prepareInstallCommand(packs))
   });
 
 npmm

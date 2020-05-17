@@ -12,7 +12,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then(res => res.ok ? res.json() : console.log('trouble'))
+    .then(res => res.ok ? res.json() : console.log('There was an issue...'))
   },
   getCollections: async () => {
     const token = await store.getToken();
