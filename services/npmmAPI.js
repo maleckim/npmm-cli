@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const { API_ENDPOINT } = require('../config');
-const store = require('../lib/localPersist');
+const store = require('../lib/store');
 
 const npmmAPI = {
   getPackages: async (id) => {

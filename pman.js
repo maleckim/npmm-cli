@@ -1,7 +1,7 @@
 const { Command } = require('commander');
 const { execSync } = require('child_process');
 const npmmAPI = require('./services/npmmAPI');
-const store = require('./lib/localPersist');
+const store = require('./lib/store');
 const { prepareInstallCommand, findCollectionId } = require('./lib/helper');
 
 const npmm = new Command();
