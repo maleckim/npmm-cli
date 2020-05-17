@@ -2,6 +2,7 @@ const { Command } = require("commander");
 const exec = require("./lib/execSync");
 const fetch = require("node-fetch");
 const npmmAPI = require('./services/npmmAPI')
+const store = require('./lib/localPersist')
 
 const npmm = new Command();
 
@@ -11,13 +12,13 @@ function displayCollections(userCollections) {
   }
 }
 
-// npmm
-//   .command("launch <collection_name>")
-//   .description("installs your npm packages")
-//   .action((collection_name) => {
-//     readyLaunch(collection_name);
-//     // console.log(exec("ls"));
-//   });
+npmm
+  .command("launch <collection_name>")
+  .description("installs your npm packages")
+  .action((collection_name) => {
+    readyLaunch(collection_name);
+    // console.log(exec("ls"));
+  });
 
 npmm
   .command("view")
