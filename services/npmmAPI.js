@@ -22,7 +22,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then((res) => res.json());
+      .then((res) => (res.ok ? res.json() : console.log('There was an issue...')));
   },
   login: (email, password) => fetch(`${API_ENDPOINT}/api/auth/login`, {
     method: 'POST',
