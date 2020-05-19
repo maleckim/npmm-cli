@@ -8,6 +8,15 @@ const store = require('./lib/store');
 const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 
 const npmm = new Command();
+// sacred artwork
+// console.log(`
+//   _   _ _____  __  __ __  __
+//  | \\ | |  __ \\|  \\/  |  \\/  |
+//  |  \\| | |__) |      |      |
+//  | .   |  ___/| |\\/| | |\\/| |
+//  | |\\  | |    | |  | | |  | |
+//  |_| \\_|_|    |_|  |_|_|  |_|
+//  `);
 
 npmm
   .command('launch [collection]')
@@ -72,7 +81,11 @@ npmm
 
       if (!packs) {
         console.log(chalk.red('There are no packages in this collection.'));
-        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
+        console.log(
+          `Go to ${chalk.bold.underline(
+            'https://npmm.dev'
+          )} to search and add to your collections.\n`
+        );
         return;
       }
 
@@ -119,8 +132,16 @@ npmm
   .description('set the user email for your NPMM account')
   .action(async () => {
     console.log(
-      chalk.bold.magenta('\nWelcome to NPMM press enter to begin login. \n')
+      chalk.bold.magenta(`
+ _   _ _____  __  __ __  __
+| \\ | |  __ \\|  \\/  |  \\/  |
+|  \\| | |__) |      |      |
+| .   |  ___/| |\\/| | |\\/| |
+| |\\  | |    | |  | | |  | |
+|_| \\_|_|    |_|  |_|_|  |_|
+ `)
     );
+    console.log(chalk.bold.magenta('Welcome to NPMM'));
     const questions = [
       {
         type: 'text',
@@ -138,7 +159,13 @@ npmm
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       npmmAPI.login(email, password);
-      console.log(chalk.bold.magenta(`\nSuccess! Run ${chalk.bold.white('npmm list')} to see your collections.`))
+      console.log(
+        chalk.bold.magenta(
+          `\nSuccess! Run ${chalk.bold.white(
+            'npmm list'
+          )} to see your collections.`
+        )
+      );
     } else {
       console.log(chalk.red('Please enter a valid email address'));
     }
