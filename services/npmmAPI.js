@@ -12,7 +12,47 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) =>
-      res.ok ? res.json() : console.log(chalk.red('There was an getting packages in the specified collection...'))
+      res.ok
+        ? res.json()
+        : console.log(
+            chalk.red(
+              'There was an getting packages in the specified collection...'
+            )
+          )
+    );
+  },
+  createCollection: async (name) => {
+    const token = await store.getToken();
+    return fetch(`${API_ENDPOINT}/api/collections`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name }),
+    }).then((res) =>
+      res.ok
+        ? res.json()
+        : console.log(
+            chalk.red('There was an issue getting your collections...')
+          )
+    );
+  },
+  exportPackages: async (collectionId, name) => {
+    const token = await store.getToken();
+    return fetch(`${API_ENDPOINT}/api/packages`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ collectionId, name }),
+    }).then((res) =>
+      res.ok
+        ? res.json()
+        : console.log(
+            chalk.red('There was an issue getting your collections...')
+          )
     );
   },
   getCollections: async () => {
@@ -23,7 +63,11 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) =>
-      res.ok ? res.json() : console.log(chalk.red('There was an issue getting your collections...'))
+      res.ok
+        ? res.json()
+        : console.log(
+            chalk.red('There was an issue getting your collections...')
+          )
     );
   },
   login: (email, password) =>
