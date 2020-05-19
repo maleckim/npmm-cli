@@ -12,7 +12,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) =>
-      res.ok ? res.json() : console.log(chalk.red('There was an issue...'))
+      res.ok ? res.json() : console.log(chalk.red('There was an getting packages in the specified collection...'))
     );
   },
   getCollections: async () => {
@@ -23,7 +23,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) =>
-      res.ok ? res.json() : console.log(chalk.red('There was an issue...'))
+      res.ok ? res.json() : console.log(chalk.red('There was an issue getting your collections...'))
     );
   },
   login: (email, password) =>

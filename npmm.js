@@ -112,7 +112,7 @@ npmm
   .description('set the user email for your NPMM account')
   .action(async () => {
     console.log(
-      chalk.bold.magenta('\nWelcome to NPMM press enter to begin login')
+      chalk.bold.magenta('\nWelcome to NPMM press enter to begin login. \n')
     );
     const questions = [
       {
@@ -131,6 +131,7 @@ npmm
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       npmmAPI.login(email, password);
+      console.log(chalk.bold.magenta(`\nSuccess! Run ${chalk.bold.white('npmm list')} to see your collections.`))
     } else {
       console.log(chalk.red('Please enter a valid email address'));
     }
