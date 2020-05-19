@@ -59,6 +59,11 @@ npmm
         console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to create and add to your collections.\n`);
         return;
       }
+      if (packs.length === 0) {
+        console.log(chalk.red('This collection has no packages'));
+        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
+        return;
+      }
 
       console.log(chalk.magenta.bold(`\n${options.collection} Packages \n==================`));
       packs.forEach((pack) => {
