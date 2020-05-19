@@ -128,6 +128,40 @@ npmm
   });
 
 npmm
+  .command('export')
+  .option('-a, --alias [exportAs]')
+  .description('exports current dependencies into a new collection')
+  .action(async (options) => {
+    let currentPackages;
+    let namedExport;
+
+    const email = await store.getEmail();
+    if (!email) {
+      console.log(chalk.red('No one is signed in.'));
+      console.log('Make sure to execute: npmm login');
+      return;
+    }
+
+    fs.readFile('./package.json', 'utf8', (err, data) => {
+      if (typeof options.alias === 'string') {
+        namedExport = options.alias;
+      } else {
+        namedExport = JSON.parse(data).name;
+      }
+      currentPackages = Object.keys(JSON.parse(data).dependencies);
+    });
+
+    const create = await npmmAPI.createCollection(namedExport);
+    if (create) {
+      const { id } = create;
+      for (let i = 0; i < currentPackages.length; i++) {
+        npmmAPI.exportPackages(id, currentPackages[i]);
+      }
+      console.log('created!');
+    }
+  });
+
+npmm
   .command('login')
   .description('set the user email for your NPMM account')
   .action(async () => {
