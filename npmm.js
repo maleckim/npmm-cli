@@ -11,7 +11,7 @@ const npmm = new Command();
 
 npmm
   .command('launch [collection]')
-  .description('installs your npm packages')
+  .description('install npm packages from your NPMM collection')
   .action(async (collectionName) => {
     if (!(await store.getEmail())) {
       console.log(chalk.red('No one is signed in.'));
@@ -42,7 +42,7 @@ npmm
 
 npmm
   .command('list')
-  .option('-c, --collection [name]')
+  .option('-c, --collection [name]', 'view packages in a collection')
   .description('view user collections')
   .action(async (options) => {
     if (!(await store.getEmail())) {
@@ -93,7 +93,7 @@ npmm
 
 npmm
   .command('export')
-  .option('-a, --alias [collection]', 'create the collection with a given name')
+  .option('-a, --alias [name]', 'create the collection with a given name')
   .description('export current dependencies into a new NPMM collection')
   .action(async (options) => {
     if (!(await store.getEmail())) {
