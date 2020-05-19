@@ -1,3 +1,4 @@
+/* eslint-disable implicit-arrow-linebreak */
 const fetch = require('node-fetch');
 const chalk = require('chalk');
 const { API_ENDPOINT } = require('../config');
@@ -12,13 +13,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) =>
-      res.ok
-        ? res.json()
-        : console.log(
-            chalk.red(
-              'There was an getting packages in the specified collection...'
-            )
-          )
+      res.ok ? res.json() : console.log(chalk.red('There was an getting packages in the specified collection...')),
     );
   },
   createCollection: async (name) => {
@@ -30,13 +25,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ name }),
-    }).then((res) =>
-      res.ok
-        ? res.json()
-        : console.log(
-            chalk.red('There was an issue getting your collections...')
-          )
-    );
+    }).then((res) => (res.ok ? res.json() : console.log(chalk.red('There was an issue creating your collection...'))));
   },
   exportPackages: async (collectionId, name) => {
     const token = await store.getToken();
@@ -47,13 +36,7 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ collectionId, name }),
-    }).then((res) =>
-      res.ok
-        ? res.json()
-        : console.log(
-            chalk.red('There was an issue getting your collections...')
-          )
-    );
+    }).then((res) => (res.ok ? res.json() : console.log(chalk.red('There was an issue exporting your packages...'))));
   },
   getCollections: async () => {
     const token = await store.getToken();
@@ -62,13 +45,7 @@ const npmmAPI = {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    }).then((res) =>
-      res.ok
-        ? res.json()
-        : console.log(
-            chalk.red('There was an issue getting your collections...')
-          )
-    );
+    }).then((res) => (res.ok ? res.json() : console.log(chalk.red('There was an issue getting your collections...'))));
   },
   login: (email, password) =>
     fetch(`${API_ENDPOINT}/api/auth/login`, {
@@ -90,7 +67,7 @@ const npmmAPI = {
         store.setEmail(email);
       })
       .catch(() => {
-        console.log(chalk.red('Error with signin, invalid credentials'));
+        console.log(chalk.red('Error with signin, invalid credentials.'));
       }),
 };
 

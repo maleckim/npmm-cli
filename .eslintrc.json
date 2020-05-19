@@ -4,7 +4,7 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb-base", "prettier"],
+  "extends": ["airbnb-base"],
   "plugins": ["prettier"],
   "globals": {
     "Atomics": "readonly",
@@ -14,8 +14,13 @@
     "ecmaVersion": 2018
   },
   "rules": {
+<<<<<<< HEAD
     "no-plusplus": "off",
     "no-useless-escape": "off",
     "no-console": "off"
+=======
+    "no-console": "off",
+    "no-confusing-arrow": "off"
+>>>>>>> 785b4338501b1f20bf178e529b0ea82ceebc5b97
   }
 }
