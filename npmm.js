@@ -175,7 +175,7 @@ npmm
 |_| \\_|_|    |_|  |_|_|  |_|
  `)
     );
-    console.log(chalk.bold.magenta('Welcome to Node Package Manager Manger'));
+    console.log(chalk.bold.magenta('Welcome to the Node Package Manager Manager'));
     const questions = [
       {
         type: 'text',
