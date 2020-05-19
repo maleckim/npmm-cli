@@ -11,7 +11,7 @@ const npmm = new Command();
 
 npmm
   .command('launch [collection]')
-  .description('installs your npm packages')
+  .description('install npm packages from your NPMM collection')
   .action(async (collectionName) => {
     if (!(await store.getEmail())) {
       console.log(chalk.red('No one is signed in.'));
@@ -42,7 +42,7 @@ npmm
 
 npmm
   .command('list')
-  .option('-c, --collection [name]')
+  .option('-c, --collection [name]', 'view packages in a collection')
   .description('view user collections')
   .action(async (options) => {
     if (!(await store.getEmail())) {
@@ -55,7 +55,12 @@ npmm
       const packs = await packagesInCollection(options.collection);
 
       if (!packs) {
-        console.log(chalk.red('There are no packages in this collection.'));
+        console.log(chalk.red("This collection doesn't exist."));
+        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to create and add to your collections.\n`);
+        return;
+      }
+      if (packs.length === 0) {
+        console.log(chalk.red('This collection has no packages'));
         console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
         return;
       }
@@ -75,7 +80,7 @@ npmm
 
 npmm
   .command('who')
-  .description('view who is signed on')
+  .description('view who is signed in')
   .action(async () => {
     const email = await store.getEmail();
     if (!email) {
@@ -88,35 +93,28 @@ npmm
 
 npmm
   .command('export')
-  .option('-a, --alias [exportAs]')
-  .description('exports current dependencies into a new collection')
+  .option('-a, --alias [name]', 'create the collection with a given name')
+  .description('export current dependencies into a new NPMM collection')
   .action(async (options) => {
-    let currentPackages;
-    let namedExport;
-
-    const email = await store.getEmail();
-    if (!email) {
+    if (!(await store.getEmail())) {
       console.log(chalk.red('No one is signed in.'));
       console.log('Make sure to execute: npmm login');
       return;
     }
 
-    fs.readFile('./package.json', 'utf8', (err, data) => {
-      if (typeof options.alias === 'string') {
-        namedExport = options.alias;
-      } else {
-        namedExport = JSON.parse(data).name;
-      }
-      currentPackages = Object.keys(JSON.parse(data).dependencies);
-    });
+    const packageFile = await fs.readFileSync('./package.json', 'utf8');
+    const packageJSON = JSON.parse(packageFile);
+    const installedPackages = Object.keys(packageJSON.dependencies);
 
-    const create = await npmmAPI.createCollection(namedExport);
-    if (create) {
-      const { id } = create;
-      for (let i = 0; i < currentPackages.length; i++) {
-        npmmAPI.exportPackages(id, currentPackages[i]);
-      }
-      console.log('created!');
+    const collectionName = options.alias ? options.alias : packageJSON.name;
+
+    const newCollection = await npmmAPI.createCollection(collectionName);
+    if (newCollection) {
+      const { id } = newCollection;
+
+      console.log(chalk.bold(`Adding ${chalk.bold.italic(installedPackages.join(', '))}...`));
+      installedPackages.forEach((pack) => npmmAPI.exportPackages(id, pack));
+      console.log(chalk.magenta.bold(`Successfully created ${chalk.underline.bold(newCollection.collection_name)}!`));
     }
   });
 
@@ -135,6 +133,11 @@ npmm
  `),
     );
     console.log(chalk.bold.magenta('Welcome to the Node Package Manager Manager'));
+    console.log(
+      chalk.bold.magenta(
+        `If you haven't signed up yet, go to ${chalk.bold.white.underline('https://npmm.dev/signup')}`,
+      ),
+    );
     const questions = [
       {
         type: 'text',
@@ -150,9 +153,9 @@ npmm
     const response = await prompts(questions);
     const { email, password } = response;
 
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
       npmmAPI.login(email, password);
-      console.log(chalk.bold.magenta(`\nSuccess! Run ${chalk.bold.white('npmm list')} to see your collections.`));
+      console.log(chalk.bold.magenta(`\nRun ${chalk.bold.white('npmm list')} to see your collections.`));
     } else {
       console.log(chalk.red('Please enter a valid email address'));
     }

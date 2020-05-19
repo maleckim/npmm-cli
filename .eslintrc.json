@@ -14,7 +14,9 @@
     "ecmaVersion": 2018
   },
   "rules": {
-    "no-unused-vars": "off",
-    "no-console": "off" // should remove this rule once in production
+    "no-console": "off",
+    "no-confusing-arrow": "off",
+    "no-useless-escape": "off",
+    "no-unused-vars": "off"
   }
 }
