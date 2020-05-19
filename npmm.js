@@ -1,6 +1,7 @@
 const { Command } = require('commander');
 const { execSync } = require('child_process');
 const fs = require('fs');
+const prompts = require('prompts');
 const npmmAPI = require('./services/npmmAPI');
 const store = require('./lib/store');
 const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
@@ -46,10 +47,32 @@ npmm
   });
 
 npmm
-  .command('set-user <email> <password>')
+  .command('set-user')
   .description('set the user email for NPMM')
-  .action((email, password) => {
-    npmmAPI.login(email, password);
+  .action(() => {
+    const questions = [
+      {
+        type: 'text',
+        name: 'intro',
+        message: 'Welcome to NPMM press enter to begin'
+      },
+      {
+        type: 'text',
+        name: 'email',
+        message: 'NPMM username?'
+      },
+      {
+        type: 'password',
+        name: 'password',
+        message: 'NPMM password?'
+      } 
+    ];
+    (async () => {
+      const response = await prompts(questions);
+      const { email, password } = response;
+      npmmAPI.login(email,password);
+    })();
+
   });
 
 // 113-0668256-0077045
