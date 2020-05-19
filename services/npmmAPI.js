@@ -1,18 +1,19 @@
 const fetch = require('node-fetch');
+const chalk = require('chalk');
 const { API_ENDPOINT } = require('../config');
 const store = require('../lib/store');
 
 const npmmAPI = {
   getPackages: async (id) => {
     const token = await store.getToken();
-    return fetch(`${API_ENDPOINT}/api/collections/${id}?justNames=true`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => (res.ok ? res.json() : console.log('There was an issue...')));
+    return fetch(`${API_ENDPOINT}/api/collections/${id}?justNames=true`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) =>
+      res.ok ? res.json() : console.log(chalk.red('There was an issue...'))
+    );
   },
   getCollections: async () => {
     const token = await store.getToken();
@@ -21,31 +22,32 @@ const npmmAPI = {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-    })
-      .then((res) => (res.ok ? res.json() : console.log('There was an issue...')));
+    }).then((res) =>
+      res.ok ? res.json() : console.log(chalk.red('There was an issue...'))
+    );
   },
-  login: (email, password) => fetch(`${API_ENDPOINT}/api/auth/login`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw res;
-      } else {
-        return res.json();
-      }
+  login: (email, password) =>
+    fetch(`${API_ENDPOINT}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
     })
-    .then((res) => {
-      console.log('success!');
-      store.setToken(res.authToken);
-    })
-    .then(store.setEmail(email))
-    .catch(() => {
-      console.log('error with signin, invalid credentials');
-    }),
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error();
+        } else {
+          return res.json();
+        }
+      })
+      .then((res) => {
+        store.setToken(res.authToken);
+        store.setEmail(email);
+      })
+      .catch(() => {
+        console.log(chalk.red('Error with signin, invalid credentials'));
+      }),
 };
 
 module.exports = npmmAPI;

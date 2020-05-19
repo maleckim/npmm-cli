@@ -1,6 +1,7 @@
 const { Command } = require('commander');
 const { execSync } = require('child_process');
 const fs = require('fs');
+const chalk = require('chalk');
 const prompts = require('prompts');
 const npmmAPI = require('./services/npmmAPI');
 const store = require('./lib/store');
@@ -9,31 +10,86 @@ const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 const npmm = new Command();
 
 npmm
-  .command('launch <collection_name>')
+  .command('launch [collection]')
   .description('installs your npm packages')
   .action(async (collectionName) => {
+    if (!(await store.getEmail())) {
+      console.log(chalk.red('No one is signed in.'));
+      console.log('Make sure to execute: npmm login');
+      return;
+    }
+
+    if (collectionName === 'Favorites') {
+      console.log(
+        chalk.red(
+          "You're not allowed install Favorites. It's for your own safety."
+        )
+      );
+      return;
+    }
+
     const packs = await packagesInCollection(collectionName);
 
+    if (!packs) {
+      console.log(
+        chalk.red(
+          `That collection doesn\'t exist. \nRun ${chalk.white.bold(
+            'npmm list'
+          )} to view packages`
+        )
+      );
+      return;
+    }
+
     if (!fs.existsSync(`${process.cwd()}/package.json`)) {
-      execSync('npm init -y', { stdio: 'inherit' });
+      console.log(
+        chalk.bold.magenta(
+          `No ${chalk.white(
+            'package.json'
+          )} found. Initializing a new NPM project...`
+        )
+      );
+      execSync('npm init -y');
     }
     execSync(prepareInstallCommand(packs), { stdio: 'inherit' });
+
+    console.log(chalk.bold.magenta('Packed by NPMM ٩(◕‿◕｡)۶'));
   });
 
 npmm
   .command('list')
-  .option('-c, --collection <name>')
+  .option('-c, --collection [name]')
   .description('view user collections')
   .action(async (options) => {
+    if (!(await store.getEmail())) {
+      console.log(chalk.red('No one is signed in.'));
+      console.log('Make sure to execute: npmm login');
+      return;
+    }
+
     if (options.collection) {
       const packs = await packagesInCollection(options.collection);
+      console.log(
+        chalk.magenta.bold(
+          `\n${options.collection} Packages \n==================`
+        )
+      );
       packs.forEach((pack) => {
-        console.log(pack.name);
+        console.log(
+          `${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(
+            pack.name
+          )}`
+        );
       });
     } else {
       const collections = await npmmAPI.getCollections();
+      console.log(chalk.magenta.bold(`\nCollections \n===========`));
       collections.forEach((collection) => {
-        console.log(collection.collection_name);
+        console.log(
+          `${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(
+            collection.collection_name
+          )}`
+        );
       });
     }
   });
@@ -43,19 +99,22 @@ npmm
   .description('view who is signed on')
   .action(async () => {
     const email = await store.getEmail();
-    console.log(email);
+    if (!email) {
+      console.log(chalk.red('No one is signed in.'));
+      console.log('Make sure to execute: npmm login');
+    } else {
+      console.log(`${chalk.bold('Email:')} ${email}`);
+    }
   });
 
 npmm
   .command('login')
   .description('set the user email for your NPMM account')
   .action(async () => {
+    console.log(
+      chalk.bold.magenta('\nWelcome to NPMM press enter to begin login')
+    );
     const questions = [
-      {
-        type: 'text',
-        name: 'intro',
-        message: 'Welcome to NPMM press enter to begin login',
-      },
       {
         type: 'text',
         name: 'email',
@@ -73,9 +132,11 @@ npmm
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       npmmAPI.login(email, password);
     } else {
-      console.log('Please enter a valid email address');
+      console.log(chalk.red('Please enter a valid email address'));
     }
   });
 
 // 113-0668256-0077045
 npmm.parse(process.argv);
+
+// 113-0668256-0077045
