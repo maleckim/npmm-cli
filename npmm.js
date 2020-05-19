@@ -88,7 +88,7 @@ npmm
 
 npmm
   .command('export')
-  .option('-a, --alias [exportAs]')
+  .option('-a, --alias [collection]', 'create the collection with a given name')
   .description('export current dependencies into a new NPMM collection')
   .action(async (options) => {
     if (!(await store.getEmail())) {
@@ -97,25 +97,18 @@ npmm
       return;
     }
 
-    // fs.readFile('./package.json', 'utf8', (err, data) => {
-    //   if (typeof options.alias === 'string') {
-    //     namedExport = options.alias;
-    //   } else {
-    //     namedExport = JSON.parse(data).name;
-    //   }
-    //   currentPackages = Object.keys(JSON.parse(data).dependencies);
-    // });
+    const packageFile = await fs.readFileSync('./package.json', 'utf8');
+    const packageJSON = JSON.parse(packageFile);
+    const installedPackages = Object.keys(packageJSON.dependencies);
 
-    const packageFile = fs.readFile('./package.json', 'utf-8', (data) => data);
-    console.log(packageFile);
-    const installedPackages = Object.keys(packageFile.dependencies);
+    const collectionName = options.alias ? options.alias : packageJSON.name;
 
-    const collectionName = options.alias ? options.alias : packageFile.name;
     const newCollection = await npmmAPI.createCollection(collectionName);
     if (newCollection) {
       const { id } = newCollection;
-      installedPackages.forEach((pack) => npmmAPI.exportPackages(id, pack));
 
+      console.log(chalk.bold(`Adding ${chalk.bold.italic(installedPackages.join(', '))}...`));
+      installedPackages.forEach((pack) => npmmAPI.exportPackages(id, pack));
       console.log(chalk.magenta.bold(`Successfully created ${chalk.underline.bold(newCollection.collection_name)}!`));
     }
   });
@@ -155,9 +148,9 @@ npmm
     const response = await prompts(questions);
     const { email, password } = response;
 
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
       npmmAPI.login(email, password);
-      console.log(chalk.bold.magenta(`\nSuccess! Run ${chalk.bold.white('npmm list')} to see your collections.`));
+      console.log(chalk.bold.magenta(`\nRun ${chalk.bold.white('npmm list')} to see your collections.`));
     } else {
       console.log(chalk.red('Please enter a valid email address'));
     }
