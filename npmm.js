@@ -1,9 +1,10 @@
-const { Command } = require("commander");
-const { execSync } = require("child_process");
-const prompts = require("prompts");
-const npmmAPI = require("./services/npmmAPI");
-const store = require("./lib/store");
-const { prepareInstallCommand, packagesInCollection } = require("./lib/helper");
+const { Command } = require('commander');
+const { execSync } = require('child_process');
+const fs = require('fs');
+const prompts = require('prompts');
+const npmmAPI = require('./services/npmmAPI');
+const store = require('./lib/store');
+const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 
 const npmm = new Command();
 
@@ -12,7 +13,11 @@ npmm
   .description("installs your npm packages")
   .action(async (collectionName) => {
     const packs = await packagesInCollection(collectionName);
-    execSync(prepareInstallCommand(packs), { stdio: "inherit" });
+
+    if(!fs.existsSync(`${process.cwd()}/package.json`)) {
+      execSync('npm init -y', { stdio: 'inherit' })
+    }
+    execSync(prepareInstallCommand(packs), { stdio: 'inherit' });
   });
 
 npmm
