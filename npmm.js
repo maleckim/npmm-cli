@@ -69,6 +69,13 @@ npmm
 
     if (options.collection) {
       const packs = await packagesInCollection(options.collection);
+
+      if (!packs) {
+        console.log(chalk.red('There are no packages in this collection.'));
+        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
+        return;
+      }
+
       console.log(
         chalk.magenta.bold(
           `\n${options.collection} Packages \n==================`
