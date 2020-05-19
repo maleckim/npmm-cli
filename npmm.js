@@ -113,7 +113,7 @@ npmm
     const create = await npmmAPI.createCollection(namedExport);
     if (create) {
       const { id } = create;
-      for (let i = 0; i < currentPackages.length; i++) {
+      for (let i = 0; i < currentPackages.length; i += 1) {
         npmmAPI.exportPackages(id, currentPackages[i]);
       }
       console.log('created!');
