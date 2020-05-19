@@ -6,7 +6,8 @@
   "dependencies": {
     "commander": "^5.1.0",
     "node-fetch": "^2.6.0",
-    "node-persist": "^3.0.5"
+    "node-persist": "^3.0.5",
+    "prompts": "^2.3.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

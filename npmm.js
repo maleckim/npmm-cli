@@ -3,7 +3,7 @@ const { execSync } = require('child_process');
 const prompts = require('prompts');
 const npmmAPI = require('./services/npmmAPI');
 const store = require('./lib/store');
-const { prepareInstallCommand, findCollectionId } = require('./lib/helper');
+const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 
 const npmm = new Command();
 
@@ -11,20 +11,26 @@ npmm
   .command('launch <collection_name>')
   .description('installs your npm packages')
   .action(async (collectionName) => {
-    const id = await findCollectionId(collectionName);
-    const packs = await npmmAPI.getPackages(id);
-    // execSync(prepareInstallCommand(packs))
-    console.log(prepareInstallCommand(packs));
+    const packs = await packagesInCollection(collectionName);
+    execSync(prepareInstallCommand(packs), { stdio: 'inherit' });
   });
 
 npmm
-  .command('view')
+  .command('list')
+  .option('-c, --collection <name>')
   .description('view user collections')
-  .action(async () => {
-    const collections = await npmmAPI.getCollections();
-    collections.forEach((collection) => {
-      console.log(collection.collection_name.replace(' ', '-'));
-    });
+  .action(async (options) => {
+    if (options.collection) {
+      const packs = await packagesInCollection(options.collection);
+      packs.forEach((pack) => {
+        console.log(pack.name);
+      });
+    } else {
+      const collections = await npmmAPI.getCollections();
+      collections.forEach((collection) => {
+        console.log(collection.collection_name);
+      });
+    }
   });
 
 npmm
