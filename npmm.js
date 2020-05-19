@@ -9,21 +9,21 @@ const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 const npmm = new Command();
 
 npmm
-  .command("launch <collection_name>")
-  .description("installs your npm packages")
+  .command('launch <collection_name>')
+  .description('installs your npm packages')
   .action(async (collectionName) => {
     const packs = await packagesInCollection(collectionName);
 
-    if(!fs.existsSync(`${process.cwd()}/package.json`)) {
-      execSync('npm init -y', { stdio: 'inherit' })
+    if (!fs.existsSync(`${process.cwd()}/package.json`)) {
+      execSync('npm init -y', { stdio: 'inherit' });
     }
     execSync(prepareInstallCommand(packs), { stdio: 'inherit' });
   });
 
 npmm
-  .command("list")
-  .option("-c, --collection <name>")
-  .description("view user collections")
+  .command('list')
+  .option('-c, --collection <name>')
+  .description('view user collections')
   .action(async (options) => {
     if (options.collection) {
       const packs = await packagesInCollection(options.collection);
@@ -39,45 +39,42 @@ npmm
   });
 
 npmm
-  .command("who")
-  .description("view who is signed on")
+  .command('who')
+  .description('view who is signed on')
   .action(async () => {
     const email = await store.getEmail();
     console.log(email);
   });
 
 npmm
-  .command("set-user")
-  .description("set the user email for NPMM")
-  .action(() => {
+  .command('login')
+  .description('set the user email for your NPMM account')
+  .action(async () => {
     const questions = [
       {
-        type: "text",
-        name: "intro",
-        message: "Welcome to NPMM press enter to begin",
+        type: 'text',
+        name: 'intro',
+        message: 'Welcome to NPMM press enter to begin login',
       },
       {
-        type: "text",
-        name: "email",
-        message: "NPMM username?",
+        type: 'text',
+        name: 'email',
+        message: 'Email: ',
       },
       {
-        type: "password",
-        name: "password",
-        message: "NPMM password?",
+        type: 'password',
+        name: 'password',
+        message: 'Password: ',
       },
     ];
-    
-      (async () => {
-        const response = await prompts(questions);
-        const { email, password } = response;
-        if(!email.includes('@') || !email.includes('.')){
-          console.log('Please enter a valid email address');
-        }else{
-        npmmAPI.login(email, password);
-        }
-      })();
+    const response = await prompts(questions);
+    const { email, password } = response;
 
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      npmmAPI.login(email, password);
+    } else {
+      console.log('Please enter a valid email address');
+    }
   });
 
 // 113-0668256-0077045

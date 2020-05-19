@@ -32,20 +32,20 @@ const npmmAPI = {
     body: JSON.stringify({ email, password }),
   })
     .then((res) => {
-      if(!res.ok){
-        throw res
-      }else{
-        return res.json()
+      if (!res.ok) {
+        throw res;
+      } else {
+        return res.json();
       }
     })
     .then((res) => {
-      console.log('success!')
-      store.setToken(res.authToken)
+      console.log('success!');
+      store.setToken(res.authToken);
     })
     .then(store.setEmail(email))
-    .catch(err => {
-      console.log('error with signin, invalid credentials')
-    })
+    .catch(() => {
+      console.log('error with signin, invalid credentials');
+    }),
 };
 
 module.exports = npmmAPI;
