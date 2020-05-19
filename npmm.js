@@ -55,7 +55,7 @@ npmm
       const packs = await packagesInCollection(options.collection);
 
       if (!packs) {
-        console.log(chalk.red("This collection doesn't exist."));
+        console.log(chalk.red("That collection doesn't exist."));
         console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to create and add to your collections.\n`);
         return;
       }
