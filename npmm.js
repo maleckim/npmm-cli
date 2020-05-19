@@ -141,7 +141,7 @@ npmm
 |_| \\_|_|    |_|  |_|_|  |_|
  `)
     );
-    console.log(chalk.bold.magenta('Welcome to NPMM'));
+    console.log(chalk.bold.magenta('Welcome to Node Package Manager Manger'));
     const questions = [
       {
         type: 'text',
