@@ -1,20 +1,20 @@
 {
     "env": {
-        "commonjs": true,
-        "es6": true,
-        "node": true
+      "commonjs": true,
+      "es6": true,
+      "node": true
     },
-    "extends": [
-        "airbnb-base"
-    ],
+    "extends": ["airbnb", "prettier", "plugin:react/recommended"],
     "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
     },
+    "plugins": ["prettier"],
     "parserOptions": {
-        "ecmaVersion": 2018
+      "ecmaVersion": 2018
     },
     "rules": {
-        "no-console": "off"
+      "no-unused-vars": "off",
+      "no-console": "off" // should remove this rule once in production
     }
-}
+  }
