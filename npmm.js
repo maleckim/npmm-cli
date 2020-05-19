@@ -8,15 +8,6 @@ const store = require('./lib/store');
 const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 
 const npmm = new Command();
-// sacred artwork
-// console.log(`
-//   _   _ _____  __  __ __  __
-//  | \\ | |  __ \\|  \\/  |  \\/  |
-//  |  \\| | |__) |      |      |
-//  | .   |  ___/| |\\/| | |\\/| |
-//  | |\\  | |    | |  | | |  | |
-//  |_| \\_|_|    |_|  |_|_|  |_|
-//  `);
 
 npmm
   .command('launch [collection]')
@@ -29,35 +20,19 @@ npmm
     }
 
     if (collectionName === 'Favorites') {
-      console.log(
-        chalk.red(
-          "You're not allowed install Favorites. It's for your own safety."
-        )
-      );
+      console.log(chalk.red("You're not allowed install Favorites. It's for your own safety."));
       return;
     }
 
     const packs = await packagesInCollection(collectionName);
 
     if (!packs) {
-      console.log(
-        chalk.red(
-          `That collection doesn\'t exist. \nRun ${chalk.white.bold(
-            'npmm list'
-          )} to view packages`
-        )
-      );
+      console.log(chalk.red(`That collection doesn't exist. \nRun ${chalk.white.bold('npmm list')} to view packages`));
       return;
     }
 
     if (!fs.existsSync(`${process.cwd()}/package.json`)) {
-      console.log(
-        chalk.bold.magenta(
-          `No ${chalk.white(
-            'package.json'
-          )} found. Initializing a new NPM project...`
-        )
-      );
+      console.log(chalk.bold.magenta(`No ${chalk.white('package.json')} found. Initializing a new NPM project...`));
       execSync('npm init -y');
     }
     execSync(prepareInstallCommand(packs), { stdio: 'inherit' });
@@ -81,35 +56,19 @@ npmm
 
       if (!packs) {
         console.log(chalk.red('There are no packages in this collection.'));
-        console.log(
-          `Go to ${chalk.bold.underline(
-            'https://npmm.dev'
-          )} to search and add to your collections.\n`
-        );
+        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
         return;
       }
 
-      console.log(
-        chalk.magenta.bold(
-          `\n${options.collection} Packages \n==================`
-        )
-      );
+      console.log(chalk.magenta.bold(`\n${options.collection} Packages \n==================`));
       packs.forEach((pack) => {
-        console.log(
-          `${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(
-            pack.name
-          )}`
-        );
+        console.log(`${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(pack.name)}`);
       });
     } else {
       const collections = await npmmAPI.getCollections();
-      console.log(chalk.magenta.bold(`\nCollections \n===========`));
+      console.log(chalk.magenta.bold('\nCollections \n==========='));
       collections.forEach((collection) => {
-        console.log(
-          `${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(
-            collection.collection_name
-          )}`
-        );
+        console.log(`${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(collection.collection_name)}`);
       });
     }
   });
@@ -173,7 +132,7 @@ npmm
 | .   |  ___/| |\\/| | |\\/| |
 | |\\  | |    | |  | | |  | |
 |_| \\_|_|    |_|  |_|_|  |_|
- `)
+ `),
     );
     console.log(chalk.bold.magenta('Welcome to the Node Package Manager Manager'));
     const questions = [
@@ -193,13 +152,7 @@ npmm
 
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
       npmmAPI.login(email, password);
-      console.log(
-        chalk.bold.magenta(
-          `\nSuccess! Run ${chalk.bold.white(
-            'npmm list'
-          )} to see your collections.`
-        )
-      );
+      console.log(chalk.bold.magenta(`\nSuccess! Run ${chalk.bold.white('npmm list')} to see your collections.`));
     } else {
       console.log(chalk.red('Please enter a valid email address'));
     }
