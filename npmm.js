@@ -9,8 +9,8 @@ const { prepareInstallCommand, packagesInCollection } = require('./lib/helper');
 const npmm = new Command();
 
 npmm
-  .command('launch <collection_name>')
-  .description('installs your npm packages')
+  .command("launch <collection_name>")
+  .description("installs your npm packages")
   .action(async (collectionName) => {
     const packs = await packagesInCollection(collectionName);
 
@@ -21,9 +21,9 @@ npmm
   });
 
 npmm
-  .command('list')
-  .option('-c, --collection <name>')
-  .description('view user collections')
+  .command("list")
+  .option("-c, --collection <name>")
+  .description("view user collections")
   .action(async (options) => {
     if (options.collection) {
       const packs = await packagesInCollection(options.collection);
@@ -39,39 +39,44 @@ npmm
   });
 
 npmm
-  .command('who')
-  .description('view who is signed on')
+  .command("who")
+  .description("view who is signed on")
   .action(async () => {
     const email = await store.getEmail();
     console.log(email);
   });
 
 npmm
-  .command('set-user')
-  .description('set the user email for NPMM')
+  .command("set-user")
+  .description("set the user email for NPMM")
   .action(() => {
     const questions = [
       {
-        type: 'text',
-        name: 'intro',
-        message: 'Welcome to NPMM press enter to begin'
+        type: "text",
+        name: "intro",
+        message: "Welcome to NPMM press enter to begin",
       },
       {
-        type: 'text',
-        name: 'email',
-        message: 'NPMM username?'
+        type: "text",
+        name: "email",
+        message: "NPMM username?",
       },
       {
-        type: 'password',
-        name: 'password',
-        message: 'NPMM password?'
-      } 
+        type: "password",
+        name: "password",
+        message: "NPMM password?",
+      },
     ];
-    (async () => {
-      const response = await prompts(questions);
-      const { email, password } = response;
-      npmmAPI.login(email,password);
-    })();
+    
+      (async () => {
+        const response = await prompts(questions);
+        const { email, password } = response;
+        if(!email.includes('@') || !email.includes('.')){
+          console.log('Please enter a valid email address');
+        }else{
+        npmmAPI.login(email, password);
+        }
+      })();
 
   });
 
