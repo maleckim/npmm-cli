@@ -4,18 +4,17 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb-base"],
-  "plugins": ["prettier"],
+  "extends": ["airbnb", "prettier"],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "plugins": ["prettier"],
   "parserOptions": {
     "ecmaVersion": 2018
   },
   "rules": {
-    "linebreak-style": 0,
-    "no-console": "off",
-    "no-confusing-arrow": "off"
+    "no-unused-vars": "off",
+    "no-console": "off" // should remove this rule once in production
   }
 }
