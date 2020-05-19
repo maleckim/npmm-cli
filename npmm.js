@@ -49,12 +49,12 @@ npmm
       {
         type: 'text',
         name: 'intro',
-        message: 'Welcome to NPMM press enter to sign in'
+        message: 'Welcome to NPMM press enter to begin'
       },
       {
         type: 'text',
         name: 'email',
-        message: 'Npmm username?'
+        message: 'NPMM username?'
       },
       {
         type: 'password',
