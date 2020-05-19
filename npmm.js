@@ -55,8 +55,8 @@ npmm
       const packs = await packagesInCollection(options.collection);
 
       if (!packs) {
-        console.log(chalk.red('There are no packages in this collection.'));
-        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
+        console.log(chalk.red("This collection doesn't exist."));
+        console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to create and add to your collections.\n`);
         return;
       }
 
@@ -75,7 +75,7 @@ npmm
 
 npmm
   .command('who')
-  .description('view who is signed on')
+  .description('view who is signed in')
   .action(async () => {
     const email = await store.getEmail();
     if (!email) {
@@ -89,34 +89,34 @@ npmm
 npmm
   .command('export')
   .option('-a, --alias [exportAs]')
-  .description('exports current dependencies into a new collection')
+  .description('export current dependencies into a new NPMM collection')
   .action(async (options) => {
-    let currentPackages;
-    let namedExport;
-
-    const email = await store.getEmail();
-    if (!email) {
+    if (!(await store.getEmail())) {
       console.log(chalk.red('No one is signed in.'));
       console.log('Make sure to execute: npmm login');
       return;
     }
 
-    fs.readFile('./package.json', 'utf8', (err, data) => {
-      if (typeof options.alias === 'string') {
-        namedExport = options.alias;
-      } else {
-        namedExport = JSON.parse(data).name;
-      }
-      currentPackages = Object.keys(JSON.parse(data).dependencies);
-    });
+    // fs.readFile('./package.json', 'utf8', (err, data) => {
+    //   if (typeof options.alias === 'string') {
+    //     namedExport = options.alias;
+    //   } else {
+    //     namedExport = JSON.parse(data).name;
+    //   }
+    //   currentPackages = Object.keys(JSON.parse(data).dependencies);
+    // });
 
-    const create = await npmmAPI.createCollection(namedExport);
-    if (create) {
-      const { id } = create;
-      for (let i = 0; i < currentPackages.length; i++) {
-        npmmAPI.exportPackages(id, currentPackages[i]);
-      }
-      console.log('created!');
+    const packageFile = fs.readFile('./package.json', 'utf-8', (data) => data);
+    console.log(packageFile);
+    const installedPackages = Object.keys(packageFile.dependencies);
+
+    const collectionName = options.alias ? options.alias : packageFile.name;
+    const newCollection = await npmmAPI.createCollection(collectionName);
+    if (newCollection) {
+      const { id } = newCollection;
+      installedPackages.forEach((pack) => npmmAPI.exportPackages(id, pack));
+
+      console.log(chalk.magenta.bold(`Successfully created ${chalk.underline.bold(newCollection.collection_name)}!`));
     }
   });
 
@@ -135,6 +135,11 @@ npmm
  `),
     );
     console.log(chalk.bold.magenta('Welcome to the Node Package Manager Manager'));
+    console.log(
+      chalk.bold.magenta(
+        `If you haven't signed up yet, go to ${chalk.bold.white.underline('https://npmm.dev/signup')}`,
+      ),
+    );
     const questions = [
       {
         type: 'text',
