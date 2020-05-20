@@ -27,7 +27,7 @@ npmm
     const packs = await packagesInCollection(collectionName);
 
     if (!packs) {
-      console.log(chalk.red(`That collection doesn't exist. \nRun ${chalk.white.bold('npmm list')} to view packages`));
+      console.log(chalk.red(`That collection doesn't exist. \nRun ${chalk.white.bold('npmm list')} to view packages.`));
       return;
     }
 
@@ -60,7 +60,7 @@ npmm
         return;
       }
       if (packs.length === 0) {
-        console.log(chalk.red('This collection has no packages'));
+        console.log(chalk.red('This collection has no packages.'));
         console.log(`Go to ${chalk.bold.underline('https://npmm.dev')} to search and add to your collections.\n`);
         return;
       }

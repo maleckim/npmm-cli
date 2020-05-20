@@ -25,7 +25,17 @@ const npmmAPI = {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ name }),
-    }).then((res) => (res.ok ? res.json() : console.log(chalk.red('There was an issue creating your collection...'))));
+    }).then((res) =>
+      res.ok
+        ? res.json()
+        : console.log(
+            chalk.red(
+              `There was an issue creating your collection...\nThis is probably because the collection name is already taken. \n\nTry running ${chalk.white.bold(
+                'npmm export -a [name of new collection]',
+              )}`,
+            ),
+          ),
+    );
   },
   exportPackages: async (collectionId, name) => {
     const token = await store.getToken();
