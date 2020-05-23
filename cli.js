@@ -77,6 +77,11 @@ npmm
       collections.forEach((collection) => {
         console.log(`${chalk.bold.magenta(String.fromCharCode(187))} ${chalk.bold(collection.collection_name)}`);
       });
+      console.log(
+        chalk.bold.magenta(
+          `\nRun ${chalk.bold.white('npmm launch [collection name]')} to locally install the packages in a collection.`,
+        ),
+      );
     }
   });
 
