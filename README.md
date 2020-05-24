@@ -4,9 +4,9 @@
 
 NPMM allows developers to frictionlessly browse and save npm packages. Saved packages can then be programmatically installed with our command line interface. Imagine the [npmjs.com](https://npmjs.com) website but with a few extra features for ease of use. A live demo can be found at [https://npmm.dev/](https://npmm.dev/)
 
-**This CLI package is an extension of the goals mentioned above. This should primarily be used to help speed up the development process by initiating `package.json` files and installing groups of packages you frequently use.**
-
 ![CLI demo](media/demo.gif)
+
+**This CLI package is an extension of the goals mentioned above. This should primarily be used to help speed up the development process by initiating `package.json` files and installing groups of packages you frequently use.**
 
 ## Setup
 
