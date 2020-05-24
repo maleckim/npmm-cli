@@ -109,7 +109,13 @@ npmm
       return;
     }
 
-    const packageFile = await fs.readFileSync('./package.json', 'utf8');
+    let packageFile;
+    try {
+      packageFile = await fs.readFileSync('./package.json', 'utf8');
+    } catch {
+      return console.log(chalk.red('There is does not seem to be package.json file in this folder.'));
+    }
+
     const packageJSON = JSON.parse(packageFile);
     const installedPackages = Object.keys(packageJSON.dependencies);
 
