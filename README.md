@@ -27,7 +27,7 @@ You need to link to your NPMM account to access your collections. Run this for a
 Lists all collections the user has on the NPMM website.
 
 _options:_
--c [collection name] (to see all the packages in a specified collection)
+-c \[collection name\] (to see all the packages in a specified collection)
 
 ### `npmm launch [collection name]`
 
@@ -40,7 +40,7 @@ Installs all the packages in a specified collection. This can be used to bootstr
 Reads your local `package.json` file and creates a new collection on the NPMM website with all the packages found in the dependencies. The collections are named based on the name of your project.
 
 _options:_
--a [new name] (to manually name the new collection)
+-a \[new name\] (to manually name the new collection)
 
 ## The Authors
 
