@@ -1,5 +1,5 @@
 {
-  "name": "@npmmjs/npmm",
+  "name": "npmm",
   "version": "1.0.3",
   "description": "",
   "main": "cli.js",
