@@ -1,6 +1,6 @@
 {
   "name": "npmm",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Bootstrap repetitive npm package installations with the help of npmm.dev",
   "main": "cli.js",
   "dependencies": {
