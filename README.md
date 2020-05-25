@@ -12,7 +12,7 @@ NPMM allows developers to frictionlessly browse and save npm packages. Saved pac
 
 Install the NPMM CLI to run as a global npm package for ease of access.
 
-### `npm i @npmmjs/npmm -g`
+### `npm i npmm -g`
 
 Once that's installed, go to [npmm.dev](https://npmm.dev/signup) to create an account so you can create and view your collections of packages.
 
