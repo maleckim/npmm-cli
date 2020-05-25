@@ -1,7 +1,7 @@
 {
   "name": "npmm",
   "version": "1.0.4",
-  "description": "",
+  "description": "Bootstrap repetitive npm package installations with the help of npmm.dev",
   "main": "cli.js",
   "dependencies": {
     "chalk": "^4.0.0",
@@ -28,9 +28,48 @@
     "type": "git",
     "url": "git+https://github.com/maleckim/npmm-cli.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "preferGlobal": true,
+  "keywords": [
+    "npm",
+    "npmm",
+    "CLI",
+    "package manager",
+    "node package manager manager",
+    "install",
+    "modules",
+    "package.json"
+  ],
+  "contributors": [
+    {
+      "name": "Daniel DiVenere",
+      "email": "hi@imdan.io",
+      "url": "https://imdan.io"
+    },
+    {
+      "name": "Michael Ploughman",
+      "email": "michael@michaelhploughman.com",
+      "url": "https://michaelhploughman.com/"
+    },
+    {
+      "name": "Josh Young",
+      "email": "joshua@young.net",
+      "url": "https://joshyoung.net/"
+    },
+    {
+      "name": "Matthew Malecki",
+      "email": "maleckimatthewm@gmail.com",
+      "url": "https://portfolio.maleckim.now.sh/"
+    },
+    {
+      "name": "Vik Birdi",
+      "email": "lifeasvik@gmail.com",
+      "url": "https://vikbirdi.com/"
+    }
+  ],
+  "directories": {
+    "lib": "./lib"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/maleckim/npmm-cli/issues"
   },
